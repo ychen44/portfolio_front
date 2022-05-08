@@ -4,6 +4,7 @@ import Background from './components/background/Background.jsx'
 function App() {
   return (
     <>
+{/* <Background/> */}
       <ResumeIcon />
       <Home />
     </>
