@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledHome, Intro, Types, Body, Header } from './Home.styled'
 import profilePic from '../assets/profile.png'
 import Aos from 'aos'
@@ -9,6 +9,15 @@ function Home() {
     Aos.init({ duration: 2000 })
     Aos.refresh()
   }, [])
+
+  const [txtCount, setTxtCount] = useState(1)
+  const delay = 10000
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTxtCount(txtCount === 1 || txtCount < 3 ? txtCount + 1 : 1)
+    }, delay)
+  }, [txtCount])
 
   return (
     // data-aos='fade-up' data-aos-once='true'
@@ -24,9 +33,9 @@ function Home() {
             {/* <h2>I'm a ... &nbsp;</h2> */}
             <Types className='wrapper'>
               <div className='wrapper'>
-                <span className='typing cloud'>Cloud Engineer</span>
-                <span className='typing ps'>Problem Solver</span>
-                <span className='typing intj'>INTJ</span>
+                <span className={txtCount === 1 ? 'typing cloud' : 'hidden'}>Cloud Engineer</span>
+                <span className={txtCount === 2 ? 'typing cloud' : 'hidden'}>Problem Solver</span>
+                <span className={txtCount === 3 ? 'typing intj' : 'hidden'}>INTJ</span>
               </div>
             </Types>
           </div>

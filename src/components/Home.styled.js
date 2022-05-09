@@ -117,46 +117,40 @@ export const Intro = styled.div`
 `
 
 export const Types = styled.div`
-  span {
-    ${
-      '' /* position: absolute;
-    font-size: 3rem;
-    font-weight: 400; */
-    }
-  }
   .wrapper {
+    width: 500px;
+    height: 10vh;
     display: grid;
     place-items: center;
+    position: relative;
+    span {
+      position: absolute;
+    }
   }
 
   .typing {
-    background: red;
-
+    ${'' /* background: red; */}
     white-space: nowrap;
     overflow: hidden;
     border-right: 3px solid;
     font-family: monospace;
-    font-size: 2em;
-  }
-  .cloud,
-  .ps,
-  .intj {
-    visibility: hidden;
+    font-size: 4em;
   }
 
-  .cloud {
+  .typing.cloud {
     width: 14ch;
-    animation: cloud 5s steps(14) 15s, blink 0.5s step-end infinite alternate;
-  }
-
-  .ps {
-    width: 14ch;
-    animation: cloud 5s steps(14) 5s, blink 0.5s step-end infinite alternate;
+    animation: cloud 10s steps(14) infinite,
+      blink 0.5s step-end infinite alternate;
   }
 
   .intj {
     width: 4ch;
-    animation: intj 3s steps(4) 10s, blink 0.5s step-end infinite alternate;
+    animation: intj 5s steps(4) infinite, blink 0.5s step-end infinite alternate;
+  }
+
+  .hidden {
+    visibility: hidden;
+    ${'' /* visibility: visible; */}
   }
 
   @keyframes cloud {
@@ -164,12 +158,12 @@ export const Types = styled.div`
       width: 0;
       visibility: visible;
     }
-    50% {
+    20% {
       width: 14ch;
       visibility: visible;
     }
-    99% {
-      width: 0;
+    90% {
+      width: 14ch;
       visibility: visible;
     }
     100% {
@@ -183,12 +177,12 @@ export const Types = styled.div`
       width: 0;
       visibility: visible;
     }
-    50% {
+    20% {
       width: 4ch;
       visibility: visible;
     }
-    99% {
-      width: 0;
+    90% {
+      width: 4ch;
       visibility: visible;
     }
     100% {
@@ -229,8 +223,19 @@ export const Types = styled.div`
 
   @media screen and (max-width: 500px) {
     span {
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: 400;
+    }
+
+    .wrapper {
+      display: grid;
+      place-items: center;
+      position: relative;
+      span {
+        position: absolute;
+        font-size: 2rem;
+        font-weight: 400;
+      }
     }
   }
 `
@@ -283,9 +288,9 @@ export const Body = styled.div`
   }
 
   @media screen and (max-width: 500px) {
-  border: 0.1em solid var(--color-4);
-  border-radius: 20px;
-  padding: 1em;
+    border: 0.1em solid var(--color-4);
+    border-radius: 20px;
+    padding: 1em;
     width: 320px;
     font-size: 1rem;
   }
