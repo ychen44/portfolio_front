@@ -17,12 +17,11 @@ export const StyledIcon = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #fff !important;
+    color: var(--gradient-1);
     background: var(--gradient-1);
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    animation: grow 3s ease infinite;
   }
 
   .icon {

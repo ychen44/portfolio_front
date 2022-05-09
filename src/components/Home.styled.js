@@ -118,18 +118,110 @@ export const Intro = styled.div`
 
 export const Types = styled.div`
   span {
-    position: absolute;
+    ${
+      '' /* position: absolute;
     font-size: 3rem;
-    font-weight: 400;
+    font-weight: 400; */
+    }
+  }
+  .wrapper {
+    display: grid;
+    place-items: center;
   }
 
-  span:nth-child(1) {
+  .typing {
+    background: red;
+
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+    font-size: 2em;
   }
-  span:nth-child(2) {
+  .cloud,
+  .ps,
+  .intj {
     visibility: hidden;
   }
-  span:nth-child(3) {
-    visibility: hidden;
+
+  .cloud {
+    width: 14ch;
+    animation: cloud 5s steps(14) 15s, blink 0.5s step-end infinite alternate;
+  }
+
+  .ps {
+    width: 14ch;
+    animation: cloud 5s steps(14) 5s, blink 0.5s step-end infinite alternate;
+  }
+
+  .intj {
+    width: 4ch;
+    animation: intj 3s steps(4) 10s, blink 0.5s step-end infinite alternate;
+  }
+
+  @keyframes cloud {
+    0% {
+      width: 0;
+      visibility: visible;
+    }
+    50% {
+      width: 14ch;
+      visibility: visible;
+    }
+    99% {
+      width: 0;
+      visibility: visible;
+    }
+    100% {
+      width: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes intj {
+    0% {
+      width: 0;
+      visibility: visible;
+    }
+    50% {
+      width: 4ch;
+      visibility: visible;
+    }
+    99% {
+      width: 0;
+      visibility: visible;
+    }
+    100% {
+      width: 0;
+      visibility: hidden;
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  @keyframes typingChanges {
+    0% {
+      border-color: transparent;
+    }
+    20% {
+      border-color: transparent;
+    }
+    40% {
+      border-color: transparent;
+    }
+    60% {
+      border-color: transparent;
+    }
+    80% {
+      border-color: transparent;
+    }
+    100% {
+      border-color: transparent;
+    }
   }
 
   @media screen and (max-width: 900px) {
@@ -144,6 +236,9 @@ export const Types = styled.div`
 `
 
 export const Body = styled.div`
+  border: 0.1em solid var(--color-4);
+  border-radius: 20px;
+  padding: 1em;
   width: 1000px;
   display: flex;
   flex-direction: column;
@@ -158,7 +253,8 @@ export const Body = styled.div`
   }
 
   button {
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    cursor: pointer;
+    background: linear-gradient(-45deg, #ee9852, #ee7752, #e73c7e, #e73cab);
     width: 200px;
     border: none;
     height: 50px;
@@ -169,6 +265,9 @@ export const Body = styled.div`
     margin-top: 50px;
     background-size: 400% 400%;
     animation: gradient 5s ease infinite, grow 3s ease infinite;
+  }
+  button:hover {
+    cursor: pointer;
   }
 
   @keyframes gradient {
@@ -184,6 +283,9 @@ export const Body = styled.div`
   }
 
   @media screen and (max-width: 500px) {
+  border: 0.1em solid var(--color-4);
+  border-radius: 20px;
+  padding: 1em;
     width: 320px;
     font-size: 1rem;
   }
