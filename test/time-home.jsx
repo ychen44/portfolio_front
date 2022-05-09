@@ -10,6 +10,14 @@ function Home() {
     Aos.refresh()
   }, [])
 
+  const [txtCount, setTxtCount] = useState(1)
+  const delay = 5000
+  useEffect(() => {
+    setTimeout(() => {
+      setTxtCount(txtCount === 1 || txtCount < 3 ? txtCount + 1 : 1)
+    }, delay)
+  }, [txtCount])
+
   return (
     // data-aos='fade-up' data-aos-once='true'
     <StyledHome>
@@ -24,9 +32,13 @@ function Home() {
             {/* <h2>I'm a ... &nbsp;</h2> */}
             <Types className='wrapper'>
               <div className='wrapper'>
-                <span className='typing cloud'>Cloud Engineer</span>
-                <span className='typing ps'>Problem Solver</span>
-                <span className='typing intj'>INTJ</span>
+                <span className={txtCount === 1 ? 'typing active' : 'typing'}>
+                  Cloud Engineer
+                </span>
+                <span className={txtCount === 2 ? 'typing active' : 'typing'}>
+                  Problem Solver
+                </span>
+                <span className={txtCount === 1 ? 'typing active' : 'typing'}>INTJ</span>
               </div>
             </Types>
           </div>
@@ -41,7 +53,7 @@ function Home() {
       </Header>
 
       <Body>
-        <h2>ABOUT ME</h2>
+        <h1>ABOUT ME </h1>
         <p className='about_me'>
           Hi, I'm Amber legal name Ya Chen. Currently resides in Southern
           California, I'm a Cloud Engineer certified in AWS Solutions Architect

@@ -32,8 +32,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: var(--color-1);
+  /* background:var(--color-1); */
   color: #fff;
+
+    /* ff 3.6+ */
+    background:-moz-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+
+    /* safari 5.1+,chrome 10+ */
+    background:-webkit-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+
+    /* opera 11.10+ */
+    background:-o-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+
+    /* ie 10+ */
+    background:-ms-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+
+    /* global 92%+ browsers support */
+    background:radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
 }
 
 code {
