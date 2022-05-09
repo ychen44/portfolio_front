@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyledHome, Intro, Types, Body, Header } from './Home.styled'
-import profilePic from '../assets/profile.png'
+import profilePic from '../../assets/profile.png'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
 

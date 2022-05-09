@@ -4,15 +4,18 @@ import styled from 'styled-components'
 export const StyledHome = styled.div`
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
   @media screen and (max-width: 900px) {
   }
 
   @media screen and (max-width: 500px) {
     height: 150vh;
+    top: 30px;
   }
 `
 

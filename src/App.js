@@ -1,10 +1,10 @@
-import { Home, ResumeIcon } from './components'
+import { Home, ResumeIcon, Navbar } from './components'
 import Background from './components/background/Background.jsx'
 
 function App() {
   return (
     <>
-
+      <Navbar />
       <ResumeIcon />
       <Home />
     </>

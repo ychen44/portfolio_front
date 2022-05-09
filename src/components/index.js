@@ -1,3 +1,3 @@
-
-export {default as Home} from './Home.jsx'
-export {default as ResumeIcon} from './Resume.jsx'
+export {default as Navbar} from './navbar/Navbar'
+export {default as Home} from './home/Home'
+export {default as ResumeIcon} from './icons/Resume'

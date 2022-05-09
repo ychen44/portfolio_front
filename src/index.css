@@ -10,7 +10,8 @@
   --color-4: rgba(131, 125, 133, 1);
   --color-5: rgba(125, 33, 67, 1);
 
-  --gradient-1: linear-gradient(-45deg,#ee7752, #e73c7e);
+  --gradient-1: linear-gradient(-45deg, #ee7752, #e73c7e);
+  --gradient-1-1: linear-gradient(-45deg, #c56143, #972853);
   --gradient-2: linear-gradient(60deg, #fc466b, #6a82fb);
 }
 
@@ -35,20 +36,45 @@ body {
   /* background:var(--color-1); */
   color: #fff;
 
-    /* ff 3.6+ */
-    background:-moz-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+  /* ff 3.6+ */
+  background: -moz-radial-gradient(
+    circle at 0% 8%,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(37, 4, 40, 1) 82%,
+    rgba(14, 7, 16, 1) 100%
+  );
 
-    /* safari 5.1+,chrome 10+ */
-    background:-webkit-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+  /* safari 5.1+,chrome 10+ */
+  background: -webkit-radial-gradient(
+    circle at 0% 8%,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(37, 4, 40, 1) 82%,
+    rgba(14, 7, 16, 1) 100%
+  );
 
-    /* opera 11.10+ */
-    background:-o-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+  /* opera 11.10+ */
+  background: -o-radial-gradient(
+    circle at 0% 8%,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(37, 4, 40, 1) 82%,
+    rgba(14, 7, 16, 1) 100%
+  );
 
-    /* ie 10+ */
-    background:-ms-radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+  /* ie 10+ */
+  background: -ms-radial-gradient(
+    circle at 0% 8%,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(37, 4, 40, 1) 82%,
+    rgba(14, 7, 16, 1) 100%
+  );
 
-    /* global 92%+ browsers support */
-    background:radial-gradient(circle at 0% 8%, rgba(0, 0, 0, 1) 1%, rgba(37, 4, 40, 1) 82%, rgba(14, 7, 16, 1) 100%);
+  /* global 92%+ browsers support */
+  background: radial-gradient(
+    circle at 0% 8%,
+    rgba(0, 0, 0, 1) 1%,
+    rgba(37, 4, 40, 1) 82%,
+    rgba(14, 7, 16, 1) 100%
+  );
 }
 
 code {
