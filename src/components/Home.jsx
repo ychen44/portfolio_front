@@ -31,7 +31,7 @@ function Home() {
           <h1>Welcome, I'm Amber</h1>
           <div className='titles'>
             {/* <h2>I'm a ... &nbsp;</h2> */}
-            <Types className='wrapper'>
+            <Types >
               <div className='wrapper'>
                 <span className={txtCount === 1 ? 'typing cloud' : 'hidden'}>Cloud Engineer</span>
                 <span className={txtCount === 2 ? 'typing cloud' : 'hidden'}>Problem Solver</span>

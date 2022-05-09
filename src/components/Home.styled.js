@@ -26,6 +26,10 @@ export const Header = styled.div`
   padding-bottom: 30px;
 
   .welcome {
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     h1 {
       font-size: 4rem;
     }
