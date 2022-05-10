@@ -21,7 +21,7 @@ function Home() {
 
   return (
     // data-aos='fade-up' data-aos-once='true'
-    <StyledHome>
+    <StyledHome id='home'>
       <Header>
         <Intro>
           <h1>Amber Chen</h1>
@@ -31,11 +31,17 @@ function Home() {
           <h1>Welcome, I'm Amber</h1>
           <div className='titles'>
             {/* <h2>I'm a ... &nbsp;</h2> */}
-            <Types >
+            <Types>
               <div className='wrapper'>
-                <span className={txtCount === 1 ? 'typing cloud' : 'hidden'}>Cloud Engineer</span>
-                <span className={txtCount === 2 ? 'typing cloud' : 'hidden'}>Problem Solver</span>
-                <span className={txtCount === 3 ? 'typing intj' : 'hidden'}>INTJ</span>
+                <span className={txtCount === 1 ? 'typing cloud' : 'hidden'}>
+                  Cloud Engineer
+                </span>
+                <span className={txtCount === 2 ? 'typing cloud' : 'hidden'}>
+                  Problem Solver
+                </span>
+                <span className={txtCount === 3 ? 'typing intj' : 'hidden'}>
+                  INTJ
+                </span>
               </div>
             </Types>
           </div>

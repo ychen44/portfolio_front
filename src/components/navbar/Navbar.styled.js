@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const StyledNav = styled.nav`
   width: 100vw;
   height: 70px;
-  ${'' /* background: red; */}
+
   position: fixed;
   z-index: 2000;
 
@@ -80,6 +80,29 @@ export const Menu = styled.div`
 
     background: var(--gradient-1-1);
 
+    .social {
+      position: absolute;
+      bottom: 10px;
+      text-decoration: none;
+      color: #fff;
+
+      svg {
+        font-size: 3rem;
+        border: 0.05em solid white;
+        border-radius: 50%;
+        padding: 5px;
+        margin: 10px;
+        transition: all ease 0.6s;
+        text-decoration: none;
+        color: #fff;
+      }
+      svg:hover,
+      svg:focus {
+        color: var(--color-4);
+        border: 0.05em solid var(--color-4);
+      }
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -105,6 +128,28 @@ export const Menu = styled.div`
       display: flex;
       font-size: 1.5rem;
       color: #fff;
+      cursor: pointer;
+      -webkit-transition: all ease 0.6s;
+      -moz-transition: all ease 0.6s;
+      -o-transition: all ease 0.6s;
+      transition: all ease 0.6s;
+      a {
+        display: flex;
+        padding-left: 20px;
+        width: 300px;
+        font-size: 2rem;
+        text-decoration: none;
+        color: #fff;
+      }
+
+      svg {
+        font-size: 2.5rem;
+      }
+    }
+
+    .selection:hover,
+    a:hover {
+      color: var(--color-4);
     }
   }
 
@@ -118,8 +163,6 @@ export const Menu = styled.div`
     }
   }
 
-
-
   ${'' /* ===================== Small Screens ==================== */}
   @media only screen and (max-width: 1600px) and (min-width: 901px) {
   }
@@ -129,8 +172,38 @@ export const Menu = styled.div`
 
   ${'' /* ===================== cell Phone ==================== */}
   @media screen and (max-width: 500px) {
-     ul {
-   width: 70vw; 
+    ul {
+      width: 70vw;
 
+      justify-content: center;
+      .social {
+        position: absolute;
+        bottom: 10px;
+        svg {
+          font-size: 3rem;
+        }
+      }
+
+      li {
+        width: 200px;
+        font-size: 2rem;
+        svg {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 2rem;
+        }
+        .selection {
+          a {
+            display: flex;
+            padding-left: 10px;
+            width: 160px;
+            font-size: 1.6rem;
+            text-decoration: none;
+            color: #fff;
+          }
+        }
+      }
+    }
   }
 `

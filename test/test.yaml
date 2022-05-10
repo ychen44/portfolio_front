@@ -1,0 +1,346 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Approach 1"
+
+Parameters:
+  WebServerKeyName:
+    Description: "The key pair to establish a SSH connection to the web servers."
+    Type: "AWS::EC2::KeyPair::KeyName"
+  SSHLocation:
+    Description: The IP address range that can be used to SSH to the EC2 instances
+    Type: String
+    MinLength: "9"
+    MaxLength: "18"
+    Default: 0.0.0.0/0
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: 10.99.0.0/16
+      EnableDnsHostnames: "true"
+      EnableDnsSupport: "true"
+      Tags:
+        - Key: Name
+          Value: VPC
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties: {}
+  VPCGatewayAttachment:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  #Loadbalancing
+  LoadBalancer:
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    Properties:
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      Name: load-balancer
+      Type: application
+      Scheme: internet-facing
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+      IpAddressType: ipv4
+  Listener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: "80"
+      Protocol: HTTP
+  TargetGroup:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties:
+      HealthCheckIntervalSeconds: "10"
+      HealthCheckPath: /index.html
+      HealthCheckPort: "80"
+      HealthCheckProtocol: HTTP
+      HealthyThresholdCount: "2"
+      Name: TG1
+      Port: "80"
+      Protocol: HTTP
+      UnhealthyThresholdCount: "2"
+      VpcId: !Ref VPC
+
+  #Autoscaling & Launch
+  LaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      ImageId: "ami-0fc61db8544a617ed"
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref WebServerSecurityGroup
+      KeyName: { "Ref": "WebServerKeyName" }
+      AssociatePublicIpAddress: "false"
+      UserData: !Base64
+        "Fn::Join":
+          - ""
+          - [
+              "#!/bin/bash\n",
+              "yum update -y\n",
+              "yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y\n",
+              "yum install httpd stress -y\n",
+              "service httpd start\n",
+              "chkconfig httpd on\n",
+              "cd /var/www/html\n",
+              "echo '<html><h1>Hello World, my hostname is:' >index.html\n",
+              "hostname >> index.html\n",
+              "echo '</h1></html>' >> index.html",
+            ]
+      InstanceMonitoring: "true"
+  AutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    Properties:
+      TargetGroupARNs:
+        - !Ref TargetGroup
+      LaunchConfigurationName: !Ref LaunchConfiguration
+      MinSize: "2"
+      MaxSize: "6"
+      DesiredCapacity: "2"
+      Cooldown: "300"
+      HealthCheckGracePeriod: "300"
+      HealthCheckType: ELB
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+      Tags:
+        - PropagateAtLaunch: "true"
+          Value: Private-Instance
+          Key: Name
+
+  #scaling policy
+  WebServerScaleUpPolicy:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref AutoScalingGroup
+      Cooldown: "10"
+      ScalingAdjustment: "1"
+  WebServerScaleDownPolicy:
+    Type: "AWS::AutoScaling::ScalingPolicy"
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref AutoScalingGroup
+      Cooldown: "10"
+      ScalingAdjustment: "-1"
+  CPUAlarmHigh:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      AlarmDescription: Scale-up if CPU > 30% for 1 minutes
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: "60"
+      EvaluationPeriods: "1"
+      Threshold: "30"
+      AlarmActions:
+        - !Ref WebServerScaleUpPolicy
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: GreaterThanThreshold
+
+  CPUAlarmLow:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      AlarmDescription: Scale-down if CPU < 10% for 1 minutes
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: "60"
+      EvaluationPeriods: "1"
+      Threshold: "10"
+      AlarmActions:
+        - !Ref WebServerScaleDownPolicy
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: LessThanThreshold
+
+  #public subnets
+  PublicSubnet1:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Select
+        - "0"
+        - !GetAZs ""
+      CidrBlock: 10.99.1.0/24
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1
+
+  PublicSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Select
+        - "1"
+        - !GetAZs ""
+      CidrBlock: 10.99.2.0/24
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PublicSubnet2
+
+  BastionInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: t2.micro
+      ImageId: "ami-0fc61db8544a617ed"
+      KeyName: { "Ref": "WebServerKeyName" }
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref BastionSecurityGroup
+          AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          DeleteOnTermination: "true"
+          SubnetId: !Ref PublicSubnet1
+      Tags:
+        - Value: Bastion-Host
+          Key: Name
+
+  NATElasticIP:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+    DependsOn: VPCGatewayAttachment
+
+  NATGateway:
+    Type: "AWS::EC2::NatGateway"
+    DependsOn: NATElasticIP
+    Properties:
+      AllocationId: !GetAtt
+        - NATElasticIP
+        - AllocationId
+      SubnetId: !Ref PublicSubnet2
+      
+  #Private Subnets
+  PrivateSubnet1:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Select
+        - "0"
+        - !GetAZs ""
+      CidrBlock: 10.99.11.0/24
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet1
+  PrivateSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      AvailabilityZone: !Select
+        - "1"
+        - !GetAZs ""
+      CidrBlock: 10.99.12.0/24
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet2
+
+  #Public Route Table
+  PublicRT:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PublicRT
+  RouteTableAssociationA:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRT
+  RouteTableAssociationB:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRT
+  RoutePublicNATToInternet:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId: !Ref PublicRT
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+    DependsOn: VPCGatewayAttachment
+  #Private Route Table
+  PrivateRT:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: PrivateRT
+  RouteTableAssociationC:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRT
+  RouteTableAssociationD:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRT
+  NATGatewayRoute:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId: !Ref PrivateRT
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  #security groups
+  BastionSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: bastion
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: BastionSG
+      SecurityGroupIngress:
+        - CidrIp: !Ref SSHLocation
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+  LoadBalancerSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: elb
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: LoadBalancerSG
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+  WebServerSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: ec2
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: WebServerSG
+      SecurityGroupIngress:
+        - FromPort: 22
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref BastionSecurityGroup
+          ToPort: 22
+        - FromPort: 80
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
+          ToPort: 80

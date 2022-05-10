@@ -4,11 +4,12 @@ import {
   AiOutlineMail,
   AiOutlinePhone,
   AiFillHome,
-AiOutlineFundProjectionScreen
+  AiOutlineFundProjectionScreen,
 } from 'react-icons/ai'
 
+import { FaDesktop, FaIdCard } from 'react-icons/fa'
 
-import { GrPersonalComputer } from "react-icons/gr";
+import { GrPersonalComputer } from 'react-icons/gr'
 import { MdOutlineClose, MdSchool } from 'react-icons/md'
 import { IoMenu } from 'react-icons/io5'
 import { StyledNav, Container, Menu, Body, Header } from './Navbar.styled'
@@ -40,27 +41,36 @@ function Navbar() {
         <li>
           <div className='selection'>
             <AiFillHome />
-            <p>About Me</p>
+            <a href='#home'>About Me</a>
           </div>
         </li>
         <li>
           <div className='selection'>
-            <GrPersonalComputer />
-            <p>Projects</p>
-          </div>
-        </li>
-        <li>
-          <div className='selection'>
-            <MdSchool />
-            <p>Background</p>
+            <FaDesktop />
+            <a href='#contact'>Projects</a>
           </div>
         </li>
         <li>
           <div className='selection'>
             <MdSchool />
-            <p>Contact Me</p>
+            <a href='#contact'>Background</a>
           </div>
         </li>
+        <li>
+          <div className='selection'>
+            <FaIdCard />
+            <a href='#contact'>Contact</a>
+          </div>
+        </li>
+
+        <div className='social'>
+          <a href='https://www.linkedin.com/in/yachen0404/' target='_blank'>
+            <AiFillLinkedin />
+          </a>
+
+          <AiOutlineMail />
+          <AiOutlinePhone />
+        </div>
       </ul>
     </Menu>
   )
@@ -70,10 +80,6 @@ function Navbar() {
       <Container>
         <div className='logo'></div>
         <div className='icons'>
-          {/* <div className='social'>
-            <AiOutlineMail />
-            <AiOutlinePhone />
-          </div> */}
           {displayMenu ? (
             <MdOutlineClose onClick={menuButton} />
           ) : (
