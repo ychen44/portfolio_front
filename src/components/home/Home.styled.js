@@ -152,7 +152,7 @@ export const Types = styled.div`
 
   .intj {
     width: 4ch;
-    animation: intj 5s steps(4) infinite, blink 0.5s step-end infinite alternate;
+    animation: intj 10s steps(4) infinite, blink 0.5s step-end infinite alternate;
   }
 
   .hidden {
