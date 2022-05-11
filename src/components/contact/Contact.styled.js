@@ -114,6 +114,15 @@ export const Container = styled.div`
         padding-top: 10px;
       }
     }
+
+    .thankyou {
+      width: 200px;
+      text-align: center;
+      h2 {
+        font-size: 1.5rem;
+        padding-bottom: 10px;
+      }
+    }
   }
 
   @media screen and (max-width: 1180px) {

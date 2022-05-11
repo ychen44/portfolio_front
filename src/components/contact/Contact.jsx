@@ -70,11 +70,12 @@ function Contact() {
   const { width } = useWindowDimensions()
   return (
     <StyledContact id='contact'>
-      <Container >
+      <Container>
         <div className='header'>
           <h1 className={show ? 'show' : 'hidden'}>CONTACT</h1>
           <h2 className={show ? 'show' : 'hidden'}>
-            Please fill out the form below and I will get back to you as soon as possible! 
+            Please fill out the form below and I will get back to you as soon as
+            possible!
           </h2>
         </div>
         <Form
@@ -92,7 +93,11 @@ function Contact() {
             <div className='input'>
               <input
                 type='text'
-                placeholder={width >= 500 ? 'First Name *' : 'Please enter your first name *'}
+                placeholder={
+                  width >= 500
+                    ? 'First Name *'
+                    : 'Please enter your first name *'
+                }
                 id='firstName'
                 {...register('firstName')}
                 className={`form-control ${
@@ -110,7 +115,9 @@ function Contact() {
             <div className='input'>
               <input
                 type='text'
-                placeholder={width >= 500 ? 'Last Name *' : 'Please enter your last name *'}
+                placeholder={
+                  width >= 500 ? 'Last Name *' : 'Please enter your last name *'
+                }
                 id='lastName'
                 {...register('lastName')}
                 className={`form-control ${
@@ -126,7 +133,9 @@ function Contact() {
             <div className='input'>
               <input
                 type='email'
-                placeholder={width >= 500 ? 'e-mail *' : 'Please enter your email *'}
+                placeholder={
+                  width >= 500 ? 'e-mail *' : 'Please enter your email *'
+                }
                 id='email'
                 {...register('email')}
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
@@ -183,7 +192,7 @@ function Contact() {
         </Form>
 
         <div className={show ? 'hidden' : 'thankyou'}>
-          <h2>Thank you for contacting us, we will reach out soon!</h2>
+          <h2>Thank you!</h2>
           <IconContext.Provider value={{ size: '65px', color: '#72b883' }}>
             <AiFillCheckCircle />
           </IconContext.Provider>
