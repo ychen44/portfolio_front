@@ -7,6 +7,7 @@ export const StyledContact = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 
   ${'' /* =============screen size ============= */}
 
@@ -234,8 +235,6 @@ export const Form = styled.form`
         width: 75vw;
       }
     }
-
-  
 
     .button-fields {
       button {
