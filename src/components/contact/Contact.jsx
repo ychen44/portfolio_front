@@ -92,7 +92,7 @@ function Contact() {
             <div className='input'>
               <input
                 type='text'
-                placeholder={width >= 500 ? 'First Name *' : '*'}
+                placeholder={width >= 500 ? 'First Name *' : 'Please enter your first name *'}
                 id='firstName'
                 {...register('firstName')}
                 className={`form-control ${
@@ -110,7 +110,7 @@ function Contact() {
             <div className='input'>
               <input
                 type='text'
-                placeholder={width >= 500 ? 'Last Name *' : '*'}
+                placeholder={width >= 500 ? 'Last Name *' : 'Please enter your last name *'}
                 id='lastName'
                 {...register('lastName')}
                 className={`form-control ${
@@ -126,7 +126,7 @@ function Contact() {
             <div className='input'>
               <input
                 type='email'
-                placeholder={width >= 500 ? 'e-mail *' : '*'}
+                placeholder={width >= 500 ? 'e-mail *' : 'Please enter your email *'}
                 id='email'
                 {...register('email')}
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
