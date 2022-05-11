@@ -192,7 +192,7 @@ function Contact() {
         </Form>
 
         <div className={show ? 'hidden' : 'thankyou'}>
-          <h2>Thank you!</h2>
+          <h2>Thank You!</h2>
           <IconContext.Provider value={{ size: '65px', color: '#72b883' }}>
             <AiFillCheckCircle />
           </IconContext.Provider>

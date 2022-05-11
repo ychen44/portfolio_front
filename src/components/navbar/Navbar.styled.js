@@ -82,7 +82,7 @@ export const Menu = styled.div`
 
     .social {
       position: absolute;
-      bottom: 10px;
+      bottom: 30px;
       text-decoration: none;
       color: #fff;
 
@@ -178,7 +178,7 @@ export const Menu = styled.div`
       justify-content: center;
       .social {
         position: absolute;
-        bottom: 10px;
+        bottom: 70px;
         svg {
           font-size: 3rem;
         }

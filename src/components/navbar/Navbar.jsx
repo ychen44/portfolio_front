@@ -7,7 +7,7 @@ import {
   AiOutlineFundProjectionScreen,
 } from 'react-icons/ai'
 
-import { FaDesktop, FaIdCard } from 'react-icons/fa'
+import { FaDesktop, FaIdCard, FaGithub } from 'react-icons/fa'
 
 import { GrPersonalComputer } from 'react-icons/gr'
 import { MdOutlineClose, MdSchool } from 'react-icons/md'
@@ -67,9 +67,12 @@ function Navbar() {
           <a href='https://www.linkedin.com/in/yachen0404/' target='_blank'>
             <AiFillLinkedin />
           </a>
+          <a href='https://github.com/ychen44' target='_blank'>
+            <FaGithub />
+          </a>
 
-          <AiOutlineMail />
-          <AiOutlinePhone />
+          {/* <AiOutlineMail />
+          <AiOutlinePhone /> */}
         </div>
       </ul>
     </Menu>
